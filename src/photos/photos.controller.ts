@@ -36,13 +36,19 @@ export class PhotosController {
     return this.photosService.findOne(+id, req.user);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePhotoDto: UpdatePhotoDto) {
-    return this.photosService.update(+id, updatePhotoDto);
+  update(
+    @Param('id') id: string,
+    @Body() updatePhotoDto: UpdatePhotoDto,
+    @Request() req,
+  ) {
+    return this.photosService.update(+id, updatePhotoDto, req.user);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.photosService.remove(+id);
+  remove(@Param('id') id: string, @Request() req) {
+    return this.photosService.remove(+id, req.user);
   }
 }

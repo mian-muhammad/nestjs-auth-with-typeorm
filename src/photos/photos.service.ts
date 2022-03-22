@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreatePhotoDto } from './dto/create-photo.dto';
 import { UpdatePhotoDto } from './dto/update-photo.dto';
@@ -31,11 +30,13 @@ export class PhotosService {
     return this.photosRepository.findOne({ where: { id, user } });
   }
 
-  update(id: number, updatePhotoDto: UpdatePhotoDto) {
-    return `This action updates a #${id} photo`;
+  update(id: number, updatePhotoDto: UpdatePhotoDto, user) {
+    return this.photosRepository.update({ id, user }, updatePhotoDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} photo`;
+  async remove(id: number, user) {
+    const photo = await this.photosRepository.findOneBy({ id, user });
+    if (photo === null) return;
+    return this.photosRepository.remove(photo);
   }
 }

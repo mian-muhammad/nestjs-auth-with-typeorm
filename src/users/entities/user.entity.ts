@@ -7,7 +7,7 @@ import {
   BeforeUpdate,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Photo } from 'src/photos/entities/photo.entity';
+import { Task } from 'src/tasks/entities/task.entity';
 
 @Entity()
 export class User {
@@ -29,8 +29,8 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
-  @OneToMany(() => Photo, (photo) => photo.user)
-  photos: Photo[];
+  @OneToMany(() => Task, (task) => task.user)
+  tasks: Task[];
 
   @BeforeInsert()
   @BeforeUpdate()

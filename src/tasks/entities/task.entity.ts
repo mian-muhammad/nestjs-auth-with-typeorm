@@ -2,13 +2,19 @@ import { User } from 'src/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Photo {
+export class Task {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  url: string;
+  title: string;
 
-  @ManyToOne(() => User, (user) => user.photos)
+  @Column()
+  description: string;
+
+  @Column({ default: false })
+  completed: boolean;
+
+  @ManyToOne(() => User, (user) => user.tasks)
   user: User;
 }
